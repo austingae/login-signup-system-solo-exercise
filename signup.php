@@ -1,4 +1,4 @@
-<?php
+<?php 
   require 'includes/database-handler.php';
 ?>
 
@@ -12,23 +12,32 @@
 </head>
 <body>
   <form method='POST'>
-    <input type='text' name='username' placeholder='type in your username' />
-    <input type='password' name='password' placeholder='type in your password' />
-    <input type='text' name='email' placeholder='type in your email' />
-    <button type='submit' name='submit' value='submit'>Submit</button>
+    <input type='text' name='name' placeholder='first and last name' />
+    <select name='level'>
+      <option value='elementary'>Elementary School</option>
+      <option value='middle'>Middle School</option>
+      <option value='high'>High School</option>
+      <option value='college'>College</option>
+    </select>
+    <input type='password' name='password' placeholder='your password' />
+    <button type='submit' name='submit' value='submit'>Sign Up</button>
   </form>
 
-  <?php 
-    if(isset($_POST['submit'])) {
-      $username = $_POST['username'];
-      $password = $_POST['password'];
-      $email = $_POST['email'];
+<?php 
+  $name = $_POST['name'];
+  $level = $_POST['level'];
+  $password = $_POST['password'];
 
-      $sqlInsertIntoStatement = "INSERT INTO people (username, password, email) VALUES ('$username', '$password', '$email');";
-      $result = mysqli_query($conn, $sqlInsertIntoStatement);
+  $sqlInsertIntoStatement = "INSERT INTO students (name, level, password) VALUES ('$name', '$level', '$password');";
+  mysqli_query($connection, $sqlInsertIntoStatement);
 
-      header ('Location: index.php');
-    }
-  ?>
+  header('Location: index.php');
+?>
 </body>
 </html>
+
+<!--
+  0. a separate php file with the database connection - Yes. 
+  1. create a form - Yes. 
+  2. using php and sql, insert the form's data into the mysql database - yes. 
+-->

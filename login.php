@@ -1,4 +1,4 @@
-<?php
+<?php 
   require 'includes/database-handler.php';
 ?>
 
@@ -12,45 +12,44 @@
 </head>
 <body>
   <form method='POST'>
-    <input type='text' name='username' placeholder='your username' />
-    <input type='password' name='password' placeholder='your password' />
+    <input type='text' name='name' placeholder='enter your name' />
+    <input type='password' name='password' placeholder='enter your password' />
     <button type='submit' name='submit' value='submit'>Log In</button>
   </form>
 
-<?php 
+<?php
+
   if(isset($_POST['submit'])) {
-    $username = $_POST['username'];
+    $name = $_POST['name'];
     $password = $_POST['password'];
+  
+    $sqlSelectStatement = "SELECT * FROM students;";
+    $result = mysqli_query($connection, $sqlSelectStatement);
 
-    $sqlSelectStatement = "SELECT username, password FROM people;";
-    $result = mysqli_query($conn, $sqlSelectStatement);
+    $loggedInStatus = false;
+  
+    while ($row = mysqli_fetch_array($result)) {
+      if ($row[1] == $name && $row[3] == $password) {
+        echo 'Hello ' . $row[1] . ', here are some ' . $row[2] . ' courses for you.';
 
-    $successfullyLoggedIn = false;
-    //this while loop loops through every row in $result
-    while ($row = mysqli_fetch_assoc($result)) { //the while loop runs until $row = null. mysqli_fetch_assoc($result) = null if there is no more rows 
-      if ($row['username'] == $username && $row['password'] == $password) {
-        echo 'You have successfully logged in.';
-
-        $successfullyLoggedIn = true;
-        break;
+        $loggedInStatus = true;
       }
     }
-
-    //if successfullyLoggedIn continues to be false, then print out to screen: Please try again.
-    if($successfullyLoggedIn == false) {
+    
+    if ($loggedInStatus == false) {
       echo 'Please try again.';
     }
-
-
-
-
-
+  
   }
+
+
 ?>
 </body>
 </html>
 
 <!--
-  Source: 
-  https://www.php.net/manual/en/mysqli-result.fetch-assoc.php
+  0. a database-handler to create a connection to the database
+  1. create a form
+  2. using php and sql, select all info in the rows; then go through each row to check if
+  $name and $password == the name and password of that row
 -->
