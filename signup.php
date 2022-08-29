@@ -24,6 +24,21 @@
     <button type='submit' name='submit' value='submit'>Sign Up</button>
   </form>
 
+  <?php 
+    $fullURL = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    
+    if (is_int(strpos($fullURL, "signuperror=emptyinput"))) { //If "signuperror=emptyinput" exists, then...
+      echo "You have one or more empty input fields.";
+    }
+    if (is_int(strpos($fullURL, "signuperror=invalidemail"))) {
+      echo "You have an invalid email format.";
+    }
+    if (is_int(strpos($fullURL, "signuperror=passwordlengthtooshort"))) {
+      echo "Your password is too short.";
+    }
+    
+  ?>
+
 <?php 
   if (isset($_POST['submit'])) {
     $name = $_POST['name'];
@@ -33,17 +48,17 @@
 
     //Sign Up Error Handling If Statements
     if (empty($name) || empty($level) || empty($email) || empty($password)) {
-      header("Location: index.php?signuperror=emptyinput");
+      header("Location: signup.php?signuperror=emptyinput");
       die();
     }
     
     if(!filter_var($email, FILTER_VALIDATE_EMAIL)) { //https://www.php.net/manual/en/filter.filters.validate.php
-        header("Location: index.php?signuperror=invalidemail");
+        header("Location: signup.php?signuperror=invalidemail");
         die();
     }
 
     if(strlen($password) < 10) {
-      header("Location: index.php?signuperror=signuperror=passwordlengthtooshort");
+      header("Location: signup.php?signuperror=passwordlengthtooshort");
       die();
     }
 
