@@ -15,14 +15,33 @@
     <input type='text' name='name' placeholder='enter your name' />
     <input type='password' name='password' placeholder='enter your password' />
     <button type='submit' name='submit' value='submit'>Log In</button>
+    
   </form>
 
 <?php
-    //Te
-    $sqlSelectStatement = "SELECT * FROM students WHERE name=?;";
-    $stmt = mysqli_stmt_init($conn);
+
+  if(isset($_POST['submit'])) {
+    $name = $_POST['name'];
+    $password = $_POST['password'];
+  
+    $sqlSelectStatement = "SELECT * FROM students;";
+    $result = mysqli_query($connection, $sqlSelectStatement);
+
+    $loggedInStatus = false;
+  
+    while ($row = mysqli_fetch_array($result)) {
+      if ($row[1] == $name && $row[3] == $password) {
+        echo 'Hello ' . $row[1] . ', here are some ' . $row[2] . ' courses for you.';
+
+        $loggedInStatus = true;
+      }
+    }
     
-    echo $stmt;
+    if ($loggedInStatus == false) {
+      echo 'Please try again.';
+    }
+  
+  }
 
 
 ?>

@@ -12,19 +12,38 @@
 </head>
 <body>
   <form method='POST'>
-    <input type='text' name='name' placeholder='first and last name' />
-    <select name='level'>
-      <option value='elementary'>Elementary School</option>
-      <option value='middle'>Middle School</option>
-      <option value='high'>High School</option>
-      <option value='college'>College</option>
-    </select>
-    <input type='text' name='email' placeholder='your email' />
+    <?php 
+      if(isset($_GET['name'])) {
+        $name = $_GET['name'];
+        echo '<input type="text" name="name" placeholder="first and last name" value="'.$name.'" />';
+      }
+      else {
+        echo "<input type='text' name='name' placeholder='first and last name' />";
+      }
+
+    ?>
+
+    <select name="level">
+      <option value="elementary" <?php if ($_GET["level"] == "elementary") echo "selected='selected'"?>>Elementary School</option>
+      <option value="middle"<?php if ($_GET["level"] == "middle") echo "selected='selected'"?>>Middle School</option>
+      <option value="high"<?php if ($_GET["level"] == "high") echo "selected='selected'"?>>High School</option>
+      <option value="college"<?php if ($_GET["level"] == "college") echo "selected='selected'"?>>College</option>
+     </select>
+
+    <?php
+      if(isset($_GET['email'])) {
+        $email = $_GET['email'];
+        echo '<input type="text" name="email" placeholder="email" value="'.$email.'" />';
+      }
+      else {
+        echo '<input type="text" name="email" placeholder="email" />';
+      }
+    ?>
     <input type='password' name='password' placeholder='your password' />
     <button type='submit' name='submit' value='submit'>Sign Up</button>
   </form>
 
-  <?php 
+<?php 
     $fullURL = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     
     if (is_int(strpos($fullURL, "signuperror=emptyinput"))) { //If "signuperror=emptyinput" exists, then...
@@ -36,8 +55,7 @@
     if (is_int(strpos($fullURL, "signuperror=passwordlengthtooshort"))) {
       echo "Your password is too short.";
     }
-    
-  ?>
+?>
 
 <?php 
   if (isset($_POST['submit'])) {
@@ -48,7 +66,7 @@
 
     //Sign Up Error Handling If Statements
     if (empty($name) || empty($level) || empty($email) || empty($password)) {
-      header("Location: signup.php?signuperror=emptyinput");
+      header("Location: signup.php?signuperror=emptyinput&name=$name&level=$level&email=$email");
       die();
     }
     
@@ -64,18 +82,9 @@
 
     $sqlInsertIntoStatement = "INSERT INTO students (name, level, password, email) VALUES ('$name', '$level', '$password', '$email');";
     mysqli_query($connection, $sqlInsertIntoStatement);
-
-
-
-  
-   
   }
-
 ?>
+
 
 </body>
 </html>
-
-<!--
-  error handling: check for errors first, and then success
--->

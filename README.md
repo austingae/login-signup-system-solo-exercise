@@ -5,3 +5,11 @@ mySQL store data in a table made up of columns and rows. mySQL has a structure t
 Source: https://www.educba.com/mysql-vs-nosql/
 
 A query can either be a request for data results from your database or for action on the data, or for both.
+
+
+
+
+
+
+a data structure is a way of organizing data. 
+
