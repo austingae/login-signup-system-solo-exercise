@@ -8,8 +8,3 @@ A query can either be a request for data results from your database or for actio
 
 
 
-
-
-
-a data structure is a way of organizing data. 
-
