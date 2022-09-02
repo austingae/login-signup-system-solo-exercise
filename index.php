@@ -9,5 +9,6 @@
 <body>
   <button><a href='login.php'>Log In</a></button>
   <button><a href='signup.php'>Sign Up</a></button>
+  <button><a href='leaderboard.php'>Leaderboard</a></button>
 </body>
 </html>
