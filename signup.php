@@ -49,12 +49,16 @@
     if (is_int(strpos($fullURL, "signuperror=emptyinput"))) { //If "signuperror=emptyinput" exists, then...
       echo "You have one or more empty input fields.";
     }
-    if (is_int(strpos($fullURL, "signuperror=invalidemail"))) {
+    elseif (is_int(strpos($fullURL, "signuperror=invalidemail"))) {
       echo "You have an invalid email format.";
     }
-    if (is_int(strpos($fullURL, "signuperror=passwordlengthtooshort"))) {
+    elseif (is_int(strpos($fullURL, "signuperror=passwordlengthtooshort"))) {
       echo "Your password is too short.";
     }
+    else {
+      echo '';
+    }
+    
 ?>
 
 <?php 
@@ -68,23 +72,34 @@
     if (empty($name) || empty($level) || empty($email) || empty($password)) {
       header("Location: signup.php?signuperror=emptyinput&name=$name&level=$level&email=$email");
       die();
-    }
-    
-    if(!filter_var($email, FILTER_VALIDATE_EMAIL)) { //https://www.php.net/manual/en/filter.filters.validate.php
-        header("Location: signup.php?signuperror=invalidemail");
+    } 
+    elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) { //https://www.php.net/manual/en/filter.filters.validate.php
+        header("Location: signup.php?signuperror=invalidemail&name=$name&level=$level&email=$email");
         die();
     }
-
-    if(strlen($password) < 10) {
-      header("Location: signup.php?signuperror=passwordlengthtooshort");
+    elseif (strlen($password) < 10) {
+      header("Location: signup.php?signuperror=passwordlengthtooshort&name=$name&level=$level&email=$email");
       die();
     }
+    else {
+      header("Location: signup.php");
 
-    $sqlInsertIntoStatement = "INSERT INTO students (name, level, password, email) VALUES ('$name', '$level', '$password', '$email');";
-    mysqli_query($connection, $sqlInsertIntoStatement);
+
+      
+      //Insert Student's Info -- name, level, password, and email -- into mySQL database.
+      $sqlInsertIntoStatement = "INSERT INTO students (name, level, password, email) VALUES ('$name', '$level', '$password', '$email');";
+      mysqli_query($connection, $sqlInsertIntoStatement);
+
+      //Insert Student's num_of_button_clicked = 0 into mySQL database. 
+      $sqlInsertIntoStatement2 = "INSERT INTO students_stat (num_of_button_clicked) VALUES ('0');";
+      mysqli_query($connection, $sqlInsertIntoStatement2);
+    }
+
+
   }
 ?>
 
 
 </body>
 </html>
+

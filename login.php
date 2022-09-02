@@ -31,17 +31,20 @@
   
     while ($row = mysqli_fetch_array($result)) {
       if ($row[1] == $name && $row[3] == $password) {
-        echo 'Hello ' . $row[1] . ', here are some ' . $row[2] . ' courses for you.';
+        header("Location: main.php?studentID=$row[0]");
 
         $loggedInStatus = true;
+
+        die();
       }
     }
     
     if ($loggedInStatus == false) {
       echo 'Please try again.';
     }
-  
   }
+
+
 
 
 ?>
