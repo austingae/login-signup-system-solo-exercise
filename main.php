@@ -19,6 +19,12 @@
   </form>
 
   <?php 
+  $student_ID = $_GET['studentID'];
+  $sqlSelectStatement = "SELECT num_of_button_clicked FROM students_stat WHERE studentID = $student_ID;";
+  $result = mysqli_query($connection, $sqlSelectStatement);
+  $row = mysqli_fetch_assoc($result);
+  echo $row['num_of_button_clicked'];
+  
   //If type=submit button clicked, then go to main.includes.php that includes the studentID
   if (isset($_GET['submit'])) {
     $studentID = $_GET['studentID'];
