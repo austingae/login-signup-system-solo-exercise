@@ -36,7 +36,7 @@
 
     //While Loop Through the Result!
     while ($row = mysqli_fetch_assoc($result)) {
-      if ($row['password'] == $password) {
+      if (password_verify($password, $row['password'])) {
         $studentID = $row['studentID'];
         header("Location: main.php?studentID=$studentID");
       }

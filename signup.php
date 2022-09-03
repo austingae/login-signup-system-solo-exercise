@@ -70,6 +70,7 @@
     $level = $_POST['level'];
     $email = $_POST['email'];
     $password = $_POST['password'];
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     //Sign Up Error Handling If Statements
     if (empty($name) || empty($level) || empty($email) || empty($password)) {
@@ -88,7 +89,7 @@
       $sqlInsertIntoStatement = "INSERT INTO students (name, level, password, email) VALUES (?,?,?,?);";
       $stmt = mysqli_stmt_init($connection);
       mysqli_stmt_prepare($stmt, $sqlInsertIntoStatement);
-      mysqli_stmt_bind_param($stmt, "ssss", $name, $level, $password, $email);
+      mysqli_stmt_bind_param($stmt, "ssss", $name, $level, $hashedPassword, $email);
       mysqli_stmt_execute($stmt);
 
 
