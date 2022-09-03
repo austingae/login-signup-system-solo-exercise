@@ -85,22 +85,20 @@
       die();
     }
     else {
-      
+      $sqlInsertIntoStatement = "INSERT INTO students (name, level, password, email) VALUES (?,?,?,?);";
+      $stmt = mysqli_stmt_init($connection);
+      mysqli_stmt_prepare($stmt, $sqlInsertIntoStatement);
+      mysqli_stmt_bind_param($stmt, "ssss", $name, $level, $password, $email);
+      mysqli_stmt_execute($stmt);
 
 
-
-
-
-      //Insert Student's Info -- name, level, password, and email -- into mySQL database.
-      $sqlInsertIntoStatement = "INSERT INTO students (name, level, password, email) VALUES ('$name', '$level', '$password', '$email');";
-      mysqli_query($connection, $sqlInsertIntoStatement);
-
-      //Insert Student's num_of_button_clicked = 0 into mySQL database. 
-      $sqlInsertIntoStatement2 = "INSERT INTO students_stat (num_of_button_clicked) VALUES ('0');";
-      mysqli_query($connection, $sqlInsertIntoStatement2);
+      $num_of_button_clicked = 0;
+      $sqlInsertIntoStatement2 = "INSERT INTO students_stat (num_of_button_clicked) VALUES (?);";
+      $stmt2 = mysqli_stmt_init($connection);
+      mysqli_stmt_prepare($stmt2, $sqlInsertIntoStatement2);
+      mysqli_stmt_bind_param($stmt2, "i", $num_of_button_clicked);
+      mysqli_stmt_execute($stmt2);
     }
-
-
   }
 ?>
 
@@ -108,3 +106,20 @@
 </body>
 </html>
 
+
+<!--
+First Way Using Prepared Statements:
+
+      $sqlInsertIntoStatement = "INSERT INTO students (name, level, password, email) VALUES (?,?,?,?);";
+      $stmt = mysqli_stmt_init($connection);
+      mysqli_stmt_prepare($stmt, $sqlInsertIntoStatement);
+      mysqli_stmt_bind_param($stmt, "ssss", $name, $level, $password, $email);
+      mysqli_stmt_execute($stmt);
+
+
+
+Second Way:
+
+      $sqlInsertIntoStatement = "INSERT INTO students (name, level, password, email) VALUES ('$name', '$level', '$password', '$email');";
+      mysqli_query($connection, $sqlInsertIntoStatement);
+-->

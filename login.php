@@ -38,6 +38,7 @@
     while ($row = mysqli_fetch_assoc($result)) {
       if ($row['password'] == $password) {
         echo 'Hello There!' . $password;
+        header("Location: main.php");
       }
     }  
   }
