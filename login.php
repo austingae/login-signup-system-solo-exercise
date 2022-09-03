@@ -15,7 +15,6 @@
     <input type='text' name='name' placeholder='enter your name' />
     <input type='password' name='password' placeholder='enter your password' />
     <button type='submit' name='submit' value='submit'>Log In</button>
-    
   </form>
 
 <?php
@@ -23,37 +22,59 @@
   if(isset($_POST['submit'])) {
     $name = $_POST['name'];
     $password = $_POST['password'];
-  
-    $sqlSelectStatement = "SELECT * FROM students;";
-    $result = mysqli_query($connection, $sqlSelectStatement);
 
-    $loggedInStatus = false;
-  
-    while ($row = mysqli_fetch_array($result)) {
-      if ($row[1] == $name && $row[3] == $password) {
-        header("Location: main.php?studentID=$row[0]");
+    //Prepared Statements using SQL and PHP
+    $sqlSelectStatement = "SELECT * FROM students WHERE name=?;";
 
-        $loggedInStatus = true;
+    $stmt = mysqli_stmt_init($connection);
+    mysqli_stmt_prepare($stmt, $sqlSelectStatement);
+    mysqli_stmt_bind_param($stmt, "s", $name);
+    mysqli_stmt_execute($stmt);
 
-        die();
+    //Result
+    $result = mysqli_stmt_get_result($stmt);
+
+    //While Loop Through the Result!
+    while ($row = mysqli_fetch_assoc($result)) {
+      if ($row['password'] == $password) {
+        echo 'Hello There!' . $password;
       }
-    }
-    
-    if ($loggedInStatus == false) {
-      echo 'Please try again.';
-    }
+    }  
   }
-
-
-
-
 ?>
 </body>
 </html>
 
 <!--
-  0. a database-handler to create a connection to the database
-  1. create a form
-  2. using php and sql, select all info in the rows; then go through each row to check if
-  $name and $password == the name and password of that row
+First Way Using Prepared Statements:
+
+    //Prepared Statements using SQL and PHP
+    $sqlSelectStatement = "SELECT * FROM students WHERE name=?;";
+
+    $stmt = mysqli_stmt_init($connection);
+    mysqli_stmt_prepare($stmt, $sqlSelectStatement);
+    mysqli_stmt_bind_param($stmt, "s", $name);
+    mysqli_stmt_execute($stmt);
+
+    //Result
+    $result = mysqli_stmt_get_result($stmt);
+
+    //While Loop Through the Result!
+    while ($row = mysqli_fetch_assoc($result)) {
+      if ($row['password'] == $password) {
+        echo 'Hello There!' . $password;
+      }
+    }
+
+
+
+Second Way:
+
+    $sqlSelectStatement = "SELECT * FROM students WHERE name='$name';";
+    $result = mysqli_query($connection, $sqlSelectStatement);
+    while ($row = mysqli_fetch_assoc($result)) {
+      if ($row['password'] == $password) {
+        echo "Hello, There!" . $password;
+      }
+    }
 -->

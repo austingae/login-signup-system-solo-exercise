@@ -13,7 +13,7 @@
 <body>
   <?php 
     //Get the columns -- students.name and students_stat.num_of_button_clicked -- and then join those two columns together into one table.
-    $sqlSelectAllStatement = "SELECT students.name, students_stat.num_of_button_clicked FROM students INNER JOIN students_stat ON students.studentID = students_stat.studentID;";
+    $sqlSelectAllStatement = "SELECT students.name, students_stat.num_of_button_clicked FROM students INNER JOIN students_stat ON students.studentID = students_stat.studentID ORDER BY num_of_button_clicked DESC;";
     $result = mysqli_query($connection, $sqlSelectAllStatement);
 
     //Make a HTML table inside PHP echo.

@@ -62,6 +62,9 @@
 ?>
 
 <?php 
+
+
+
   if (isset($_POST['submit'])) {
     $name = $_POST['name'];
     $level = $_POST['level'];
@@ -82,10 +85,12 @@
       die();
     }
     else {
-      header("Location: signup.php");
-
-
       
+
+
+
+
+
       //Insert Student's Info -- name, level, password, and email -- into mySQL database.
       $sqlInsertIntoStatement = "INSERT INTO students (name, level, password, email) VALUES ('$name', '$level', '$password', '$email');";
       mysqli_query($connection, $sqlInsertIntoStatement);
