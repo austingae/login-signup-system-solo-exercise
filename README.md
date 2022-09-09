@@ -8,3 +8,9 @@ A query can either be a request for data results from your database or for actio
 
 
 
+Session stores data in the server to be used across multiple pages.
+By default, session variables last until the user quits the browser or with a timeout value. 
+
+https://www.tutorialrepublic.com/php-tutorial/php-sessions.php
+
+

@@ -1,4 +1,5 @@
 <?php 
+  session_start();
   require 'includes/database-handler.php';
 ?>
 
@@ -37,8 +38,18 @@
     //While Loop Through the Result!
     while ($row = mysqli_fetch_assoc($result)) {
       if (password_verify($password, $row['password'])) {
-        $studentID = $row['studentID'];
-        header("Location: main.php?studentID=$studentID");
+        session_start();
+        $_SESSION['studentID'] = $row['studentID'];
+        $_SESSION['studentName'] = $row['name'];
+
+        header("Location: index.php?login=success");
+
+
+
+
+
+        //$studentID = $row['studentID'];
+        //header("Location: main.php?studentID=$studentID");
       }
     }  
   }
